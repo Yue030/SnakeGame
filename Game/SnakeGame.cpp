@@ -1,6 +1,8 @@
 #include <conio.h>
 #include <iostream>
 
+#define end '\n'
+
 using namespace std;
 
 //Border Width
@@ -29,6 +31,12 @@ enum eDirection
     DOWN
 }; //Direction Control
 
+void setFruit()
+{
+    fruitX = rand() % WIDTH;
+    fruitY = rand() % HEIGHT;
+}
+
 eDirection dir;
 
 void setup()
@@ -44,8 +52,7 @@ void setup()
     y = HEIGHT / 2;
 
     //Display Fruit in random place
-    fruitX = rand() % WIDTH;
-    fruitY = rand() % HEIGHT;
+    setFruit();
 
     //Init Score
     score = 0;
@@ -58,7 +65,7 @@ void draw()
     //Width Border
     for (int i = 0; i < WIDTH + 2; i++)
         cout << "#";
-    cout << endl;
+    cout << end;
 
     //Height Border
     for (int i = 0; i < HEIGHT; i++)
@@ -92,17 +99,17 @@ void draw()
             if (j == WIDTH - 1)
                 cout << "#";
         }
-        cout << endl;
+        cout << end;
     }
 
     for (int i = 0; i < WIDTH + 2; i++)
         cout << "#";
 
-    cout << endl;
+    cout << end;
 
-    cout << "Score: " << score << endl;
+    cout << "Score: " << score << end;
 
-    cout << "Code By: Yue" << endl;
+    cout << "Code By: Yue" << end;
 }
 
 void input()
@@ -208,15 +215,17 @@ void algorithm()
     else if (y < 0)
         y = HEIGHT - 1;
 
-    if(x == fruitX and y == fruitY)
+    for (int i = 1; i < nTail; i++)
+        if(tailX[i] == x and tailY[i] == y)
+            gameover = true;
+
+    if (x == fruitX and y == fruitY)
     {
-        score += 10;
+            score += 10;
 
-        fruitX = rand() % WIDTH;
+            setFruit();
 
-        fruitY = rand() % HEIGHT;
-
-        nTail++;
+            nTail++;
     }
 }
 
@@ -233,6 +242,12 @@ int main()
 
         algorithm();
     }
+
+    system("cls");
+
+    cout << "Game Over!!!" << end;
+    cout << "Final Score: " << score << end;
+    cout << "Thank For Playing" << end;
 
     system("pause");
     return 0;
